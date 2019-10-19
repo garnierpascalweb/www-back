@@ -43,7 +43,7 @@ paths:
           schema:
             type: "array"
             items:
-              $ref: "#/definitions/Pet"
+              $ref: "#/definitions/Activity"
         400:
           description: "Invalid year value"
   
