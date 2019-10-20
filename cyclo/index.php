@@ -18,7 +18,6 @@ $app->GET('/api/v1/activities/findByYear/{year}', function(Application $app, Req
    // $db = new mysqli($dbhost, $dbuser, $dbpass, $dbname);
     // $db = new PDO('mysql:host=".$dbhost.";dbname=".$dbname."', $dbuser, '');
     $dsn = "mysql:host=$dbhost;dbname=$dbname;charset=$charset";
-    echo "la DSN est ".$dsn;
     $options = [
         PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -27,13 +26,15 @@ $app->GET('/api/v1/activities/findByYear/{year}', function(Application $app, Req
     try {
     $db = new PDO($dsn, $dbuser, $dbpass, $options);
    // echo "le PDO est ".$db->;
-} catch (\PDOException $e) {
-    throw new \PDOException($e->getMessage(), (int)$e->getCode());
-}
+    } catch (\PDOException $e) {
+        throw new \PDOException($e->getMessage(), (int)$e->getCode());
+    }
+
     $manager = new ActivityManager($db);
+    echo "cstr ok du manager";
     $response = $manager->getActivitiesByYear($year);
     return new Response($response);
-            });
+});
 
 
 $app->run();
