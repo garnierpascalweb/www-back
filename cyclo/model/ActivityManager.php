@@ -4,10 +4,14 @@
  */
 class ActivityManager {
     private $pdo;
+    protected $entrModel;
+    protected $coursesModel;
 
     public function __construct($pdo){
         // initialisation de la connexion
         $this->setDb($pdo);
+        $entrModel = new EntrainementsModel($pdo);
+        $coursesModel = new CoursesModel($pdo);
     }
 
     /**
@@ -15,8 +19,8 @@ class ActivityManager {
      */
     public function getActivitiesByYear($year) {
         // $year a sanitizer
-        $stmt=$pdo->prepare('SELECT * FROM ENTRAINEMENTS WHERE DATE LIKE %:id');
-        $sqlSelectEntr = "SELECT * FROM ENTRAINEMENTS WHERE DATE LIKE '".$year."%'";
+        //$stmt=$pdo->prepare('SELECT * FROM ENTRAINEMENTS WHERE DATE LIKE %:id');
+        //$sqlSelectEntr = "SELECT * FROM ENTRAINEMENTS WHERE DATE LIKE '".$year."%'";
         $jsonEntr = $this->getArrayFromSelect($sqlSelectEntr);
         
         $sqlSelectCourses = "SELECT * FROM COURSES WHERE DATE LIKE '".$year."%'";
@@ -36,8 +40,7 @@ class ActivityManager {
         return $results;
     }
 
-    public function setDb(PDO $pdo)
-    {
+    public function setDb(PDO $pdo) {
       $this->pdo = $pdo;
     }
 }
